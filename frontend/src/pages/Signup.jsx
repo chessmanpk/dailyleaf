@@ -1,10 +1,12 @@
-function Signup () {
-    return (
-        <div>
-            <h2>Signup Page</h2>
-            <p>It should be fun as well. 😂 </p>
-        </div>
-    );
+function Signup() {
+  return (
+    <div className="form-container">
+      <h2>SignUp</h2>
+      <input type="text" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button>Create Account</button>
+    </div>
+  );
 }
 
 export default Signup;

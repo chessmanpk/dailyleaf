@@ -1,8 +1,12 @@
+import "../styles/form.css";
+
 function Login () {
     return (
-        <div>
-           <h2>Login Page</h2>
-           <p>I will design the login page to be Ass-thetic. 🍑 </p> 
+        <div className="form-container">
+           <h2>Login</h2>
+           <input type="text" placeholder="Email" />
+           <input type="password" placeholder="Password" />
+           <button>Login</button>
         </div>
     );
 }

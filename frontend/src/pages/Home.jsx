@@ -1,8 +1,10 @@
+import "../styles/home.css";
+
 function Home () {
     return (
-        <div>
-            <h2>Home Page</h2>
-            <p>This will be a COOL Home Page. 😎 </p>
+        <div className="home">
+            <h2>Welcome to Dailyleaf 🌿</h2>
+            <p>Track your habits.📊 Stay consistent.📝 Grow daily.📈 </p>
         </div>
     );
 }
