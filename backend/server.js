@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+ 
 const app = express();
 
 app.use(cors());
@@ -15,3 +15,16 @@ const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected ✅"))
+  .catch(err => console.log(err));
+
+
+
