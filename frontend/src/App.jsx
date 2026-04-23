@@ -18,17 +18,17 @@ function App() {
   }, []);
  
   return (
-    <div>
-      <h1>Dailyleaf 🌿</h1>
-    </div>
-    // <Router>
-    //   <Navbar />
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/signup" element={<Signup />} />
-    //   </Routes>
-    // </Router>
+    // <div>
+    //   <h1>Dailyleaf 🌿</h1>
+    // </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
 
     // <div>
     //   <h1>DailyLeaf 🌿</h1>
