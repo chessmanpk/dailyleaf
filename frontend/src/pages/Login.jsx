@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/form.css";
 
+
 function Login() {
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +21,14 @@ function Login() {
       });
 
       const data = await res.text();
-      alert(data);
+
+      if (data === "Login successful") {
+        localStorage.setItem("isLoggedIn", "true");
+        navigate("/")
+      } else {
+        alert(data);
+      }
+      
     } catch (error) {
       console.error(error);
       alert("Something went wrong");

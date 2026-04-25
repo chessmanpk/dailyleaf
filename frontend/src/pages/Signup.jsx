@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +19,14 @@ function Signup() {
       });
 
       const data = await res.text();
-      alert(data);
+
+      if (data === "User registered") {
+        localStorage.setItem("isLoggedIn", "true");
+        navigate("/")
+      } else {
+        alert(data);
+      }
+      
     } catch (error) {
       console.error(error);
       alert("Something went wrong");
@@ -24,7 +35,7 @@ function Signup() {
 
   return (
     <div className="form-container">
-      <h2>Signup</h2>
+      <h2>Ready to register?</h2>
       <input
         type="text"
         placeholder="Email"

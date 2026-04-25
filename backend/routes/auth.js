@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) return res.send("Invalid credentials");
 
-    res.send("Login successfull");
+    res.send("Login successful");
 });
 
 module.exports = router;
