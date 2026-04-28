@@ -19,6 +19,9 @@ app.listen(PORT, () => {
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 
+const entryRoutes = require("./routes/entry");
+app.use("/api/entries", entryRoutes);
+
 const mongoose = require("mongoose");
 require("dotenv").config();
 
