@@ -19,4 +19,23 @@ router.get("/all", async (req, res) => {
     res.json(entries);
 }); 
 
+//Delete Entry
+router.delete("/delete/:id", async (req, res) => {
+    await Entry.findByIdAndDelete(req.params.id);
+
+    res.send("Entry deleted");
+});
+
+//Update entry
+router.put("/update/:id", async (req, res) => {
+    const { content } = req.body;
+
+    await Entry.findByIdAndUpdate(req.params.id, {
+        content,
+    });
+
+    req.send("Entry updated");
+});
+
+
 module.exports = router;

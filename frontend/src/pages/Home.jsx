@@ -38,6 +38,32 @@ function Home () {
         setEntries(data);
     };
 
+    const handleDelete = async (id) => {
+        await fetch (`http://localhost:5000/api/entries/delete/${id}`, {
+            method: "DELETE",
+        });
+
+        fetchEntries();
+    };
+
+    const [editingId, setEditingId] = useState(null);
+    const [editText, setEditText] = useState("");
+
+    const handleUpdate = async (id) => {
+        await fetch(`http://localhost:5000/api/entries/update/${id}`, {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+            content: editText
+            })
+        });
+
+        setEditingId(null);
+        fetchEntries();
+    };
+
     useEffect(() => {
         fetchEntries();
     }, []);
@@ -60,11 +86,48 @@ function Home () {
             <button onClick={handleCreate}>Save</button>
 
             <div>
-                {entries.map((entry, index) => (
-                    <div key={index}>
+                {entries.map((entry) => (
+                <div
+                    key={entry._id}
+                    style={{
+                    border: "1px solid gray",
+                    padding: "10px",
+                    marginTop: "10px"
+                    }}
+                >
+                    {editingId === entry._id ? (
+                    <>
+                        <textarea
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        />
+
+                        <button onClick={() => handleUpdate(entry._id)}>
+                        Save
+                        </button>
+                    </>
+                    ) : (
+                    <>
                         <p>{entry.content}</p>
                         <small>{entry.user}</small>
-                    </div>
+
+                        <div>
+                        <button
+                            onClick={() => {
+                            setEditingId(entry._id);
+                            setEditText(entry.content);
+                            }}
+                        >
+                            Edit
+                        </button>
+
+                        <button onClick={() => handleDelete(entry._id)}>
+                            Delete
+                        </button>
+                        </div>
+                    </>
+                    )}
+                </div>
                 ))}
             </div>
 
