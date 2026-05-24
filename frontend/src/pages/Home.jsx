@@ -11,43 +11,78 @@ function Home () {
 
         if (!token) {
             navigate("/login");
+            return;
         }
+
+        fetchEntries();
     }, [navigate]);
 
     const [content, setContent] = useState ("");
     const [entries, setEntries] = useState ([]);
+    const [loading, setLoading] = useState (false);
 
     const user = localStorage.getItem("user");
 
     const handleCreate = async () => {
-        await fetch("http://localhost:5000/api/entries/create", {
+        if (!content.trim()) {
+            return alert("Entry cannot be empty");
+        }
+
+        try {
+            setLoading(true);
+
+            const res = await fetch("http://localhost:5000/api/entries/create", {
             method: "POST", 
             headers: {
                 "Content-Type": "application/json",
                 Authorization: localStorage.getItem("token"),
             },
-            body: JSON.stringify({ content, user })
+            body: JSON.stringify({ content }),
         });
 
+        if (!res.ok) {
+            throw new Error("Failed to create entry");
+        }
+
         setContent("");
-        fetchEntries();
+
+        await fetchEntries();
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const fetchEntries = async () => {
-        const res = await fetch("http://localhost:5000/api/entries/all", {
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        });
-        const data = await res.json();
-        setEntries(data);
+        try {
+            const res = await fetch(
+                "http://localhost:5000/api/entries/all",
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch entries");
+            }
+
+            const data = await res.json();
+
+            setEntries(data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleDelete = async (id) => {
         await fetch (`http://localhost:5000/api/entries/delete/${id}`, {
             method: "DELETE",
             headers: {
-                Authorization: localStorage.grtItem("token"),
+                Authorization: localStorage.getItem("token"),
             },
         });
 
@@ -92,53 +127,59 @@ function Home () {
             onChange={(e) => setContent(e.target.value)}
             />
 
-            <button onClick={handleCreate}>Save</button>
+            <button 
+            onClick={handleCreate}
+            disabled={loading}
+            >
+                {loading ? "Saving..." : "Save"}
+            </button>
 
             <div>
-                {entries.map((entry) => (
-                <div
-                    key={entry._id}
-                    className="entry-card"
-                    style={{
-                    border: "1px solid gray",
-                    padding: "10px",
-                    marginTop: "10px"
-                    }}
-                >
-                    {editingId === entry._id ? (
-                    <>
-                        <textarea
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        />
-
-                        <button onClick={() => handleUpdate(entry._id)}>
-                        Save
-                        </button>
-                    </>
+                {entries.length === 0 ? (
+                    <p>No entries yet. Start writing 🌿</p>
                     ) : (
-                    <>
-                        <p>{entry.content}</p>
-                        <small className="entry-user">{entry.user}</small>
+                    entries.map((entry) => (
+                        <div key={entry._id} className="entry-card">
+                        {editingId === entry._id ? (
+                            <>
+                            <textarea
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                            />
 
-                        <div>
-                        <button
-                            onClick={() => {
-                            setEditingId(entry._id);
-                            setEditText(entry.content);
-                            }}
-                        >
-                            Edit
-                        </button>
+                            <button onClick={() => handleUpdate(entry._id)}>
+                                Save
+                            </button>
+                            </>
+                        ) : (
+                            <>
+                            <p>{entry.content}</p>
 
-                        <button onClick={() => handleDelete(entry._id)}>
-                            Delete
-                        </button>
+                            <small className="entry-user">
+                                {entry.user}
+                            </small>
+
+                            <div>
+                                <button
+                                onClick={() => {
+                                    setEditingId(entry._id);
+                                    setEditText(entry.content);
+                                }}
+                                >
+                                Edit
+                                </button>
+
+                                <button
+                                onClick={() => handleDelete(entry._id)}
+                                >
+                                Delete
+                                </button>
+                            </div>
+                            </>
+                        )}
                         </div>
-                    </>
+                    ))
                     )}
-                </div>
-                ))}
             </div>
 
         </div>
