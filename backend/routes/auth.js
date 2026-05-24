@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
     const { email, password } = req.body;
@@ -29,7 +30,22 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) return res.send("Invalid credentials");
 
-    res.send("Login successful");
+
+
+    const token = jwt.sign(
+        {
+            email: user.email,
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "7d",
+        }
+    );
+
+    res.json({
+        token,
+        email: user.email,
+    });
 });
 
 module.exports = router;

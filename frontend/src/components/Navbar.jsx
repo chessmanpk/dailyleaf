@@ -1,39 +1,47 @@
-// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css";
 
 function Navbar() {
+  const navigate = useNavigate();
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn"); 
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
       <h1>Dailyleaf 🌿</h1>
-      <div className="links">
-        <a href="/">Home</a>
 
-        {isLoggedIn ? (
-          <button className="logout-btn" onClick={() => {
-            localStorage.removeItem("isLoggedIn");
-            window.location.reload();
-          }}>
-            Logout
-          </button>
+      <div className="links">
+        <Link to="/">Home</Link>
+
+        {token ? (
+          <>
+            <span style={{ color: "white", marginRight: "10px" , marginLeft: "10px"}}>
+              {user}
+            </span>
+
+            <button
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <>
-          <a href="/login">Login</a>
-          <a href="/signup">Signup</a>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Signup</Link>
           </>
         )}
       </div>
     </nav>
-    // <nav className="navbar">
-    //   <h1>Dailyleaf 🌿</h1>
-    //   <div className="links">
-    //     <Link to="/">Home</Link>
-    //     <Link to="/login">Login</Link>
-    //     <Link to="/signup">Signup</Link>
-    //   </div>
-    // </nav>
   );
 }
 

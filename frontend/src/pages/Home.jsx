@@ -7,12 +7,12 @@ function Home () {
     const navigate = useNavigate();
     
     useEffect(() => {
-        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        const token = localStorage.getItem("token");
 
-        if (!isLoggedIn) {
+        if (!token) {
             navigate("/login");
         }
-    }, []);
+    }, [navigate]);
 
     const [content, setContent] = useState ("");
     const [entries, setEntries] = useState ([]);
@@ -23,7 +23,8 @@ function Home () {
         await fetch("http://localhost:5000/api/entries/create", {
             method: "POST", 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
             },
             body: JSON.stringify({ content, user })
         });

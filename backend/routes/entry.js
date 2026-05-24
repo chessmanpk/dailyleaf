@@ -1,10 +1,11 @@
 const express = require ("express");
 const router = express.Router ();
 const Entry = require("../models/Entry")
+const authMiddleware = require("../middleware/authMiddleware");
 
 
 // Create entry
-router.post("/create", async (req, res) => {
+router.post("/create", authMiddleware, async (req, res) => {
     const { content, user } = req.body;
 
     const entry = new Entry({ content, user });

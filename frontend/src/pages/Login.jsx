@@ -20,13 +20,19 @@ function Login() {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await res.text();
+      console.log(res);
 
-      if (data === "Login successful") {
-        localStorage.setItem("isLoggedIn", "true");
-        navigate("/")
+      const data = await res.json();
+
+      console.log(data);
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", data.email);
+
+        navigate("/");
       } else {
-        alert(data);
+        alert("Login failed");
       }
       
     } catch (error) {
