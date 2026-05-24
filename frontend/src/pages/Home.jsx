@@ -34,7 +34,11 @@ function Home () {
     };
 
     const fetchEntries = async () => {
-        const res = await fetch("http://localhost:5000/api/entries/all");
+        const res = await fetch("http://localhost:5000/api/entries/all", {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            },
+        });
         const data = await res.json();
         setEntries(data);
     };
@@ -42,6 +46,9 @@ function Home () {
     const handleDelete = async (id) => {
         await fetch (`http://localhost:5000/api/entries/delete/${id}`, {
             method: "DELETE",
+            headers: {
+                Authorization: localStorage.grtItem("token"),
+            },
         });
 
         fetchEntries();
@@ -54,7 +61,8 @@ function Home () {
         await fetch(`http://localhost:5000/api/entries/update/${id}`, {
             method: "PUT",
             headers: {
-            "Content-Type": "application/json"
+                Authorization: localStorage.getItem("token"),
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
             content: editText
