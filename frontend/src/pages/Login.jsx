@@ -36,7 +36,7 @@ function Login() {
   };
 
   return (
-    <div className="form-container">
+    <div className="auth-box">
       <h2>Welcome back!</h2>
       <input
         type="text"

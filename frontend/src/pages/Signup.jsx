@@ -34,7 +34,7 @@ function Signup() {
   };
 
   return (
-    <div className="form-container">
+    <div className="auth-box">
       <h2>Ready to register?</h2>
       <input
         type="text"

@@ -74,7 +74,7 @@ function Home () {
         //     <p>Track your habits.📊 Stay consistent.📝 Grow daily.📈 </p>
         // </div>
 
-        <div>
+        <div className="container">
             <h2>Welcome {user}</h2>
 
             <textarea
@@ -89,6 +89,7 @@ function Home () {
                 {entries.map((entry) => (
                 <div
                     key={entry._id}
+                    className="entry-card"
                     style={{
                     border: "1px solid gray",
                     padding: "10px",
@@ -109,7 +110,7 @@ function Home () {
                     ) : (
                     <>
                         <p>{entry.content}</p>
-                        <small>{entry.user}</small>
+                        <small className="entry-user">{entry.user}</small>
 
                         <div>
                         <button
