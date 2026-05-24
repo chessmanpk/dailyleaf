@@ -26,7 +26,21 @@ nav a {
   padding: 20px;
 }
 
-textarea,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+
+  min-height: 120px;
+  resize: vertical;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
 input {
   width: 100%;
   padding: 12px;
@@ -59,12 +73,19 @@ button:hover {
 
 .entry-card {
   background: white;
-  padding: 15px;
+
+  padding: 18px;
   margin-top: 20px;
 
-  border-radius: 10px;
+  border-radius: 12px;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  transition: 0.3s;
+}
+
+.entry-card:hover {
+  transform: translateY(-2px);
 }
 
 .entry-user {
@@ -98,4 +119,30 @@ button:hover {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.entry-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 10px;
+}
+
+.entry-date {
+  color: gray;
+  font-size: 12px;
+}
+
+.empty-state {
+  text-align: center;
+
+  margin-top: 40px;
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }

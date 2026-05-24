@@ -121,11 +121,19 @@ function Home () {
         <div className="container">
             <h2>Welcome {user}</h2>
 
+            <h2>Your Journal</h2>
+            <p>Capture your thoughts privately.</p>
+
             <textarea
-            placeholder= "Write your thoughts...."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your thoughts..."
+                value={content}
+                maxLength={500}
+                onChange={(e) => setContent(e.target.value)}
+                autoFocus
             />
+            <p>
+                {content.length}/500 characters
+            </p>
 
             <button 
             onClick={handleCreate}
@@ -136,16 +144,27 @@ function Home () {
 
             <div>
                 {entries.length === 0 ? (
-                    <p>No entries yet. Start writing 🌿</p>
+                    <div className="empty-state">
+                        <h3>No entries yet 🌿</h3>
+                        <p>
+                            Start documenting your thoughts and ideas.
+                        </p>
+                    </div>
                     ) : (
                     entries.map((entry) => (
                         <div key={entry._id} className="entry-card">
                         {editingId === entry._id ? (
                             <>
+
                             <textarea
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
+                                maxLength={500}
                             />
+                            
+                            <p>
+                                {editText.length}/500 characters
+                            </p>
 
                             <button onClick={() => handleUpdate(entry._id)}>
                                 Save
@@ -155,9 +174,16 @@ function Home () {
                             <>
                             <p>{entry.content}</p>
 
-                            <small className="entry-user">
+                            <div className="entry-meta">
+                                <small className="entry-user">
                                 {entry.user}
-                            </small>
+                                </small>
+
+                                <small className="entry-date">
+                                    {new Date(entry.createdAt).toLocaleString()}
+                                </small>
+                            </div>
+                            
 
                             <div>
                                 <button
