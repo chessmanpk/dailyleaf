@@ -20,6 +20,8 @@ function Home () {
     const [content, setContent] = useState ("");
     const [entries, setEntries] = useState ([]);
     const [loading, setLoading] = useState (false);
+    const [tag, setTag] = useState("Personal");
+    const [search, setSearch] = useState("");
 
     const user = localStorage.getItem("user");
 
@@ -37,7 +39,10 @@ function Home () {
                 "Content-Type": "application/json",
                 Authorization: localStorage.getItem("token"),
             },
-            body: JSON.stringify({ content }),
+            body: JSON.stringify({
+                content,
+                tag,
+            }),
         });
 
         if (!res.ok) {
@@ -112,6 +117,13 @@ function Home () {
         fetchEntries();
     }, []);
 
+
+    const filteredEntries = entries.filter((entry) => 
+        entry.content.toLowerCase().includes(search.toLowerCase()) || 
+
+        entry.tag.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         // <div className="home">
         //     <h2>Welcome to Dailyleaf 🌿</h2>
@@ -123,6 +135,16 @@ function Home () {
 
             <h2>Your Journal</h2>
             <p>Capture your thoughts privately.</p>
+
+            <select
+                value={tag}
+                onChange={(e) => setTag(e.target.value)}
+            >
+                <option>Personal</option>
+                <option>Work</option>
+                <option>Ideas</option>
+                <option>Learning</option>
+            </select>
 
             <textarea
                 placeholder="Write your thoughts..."
@@ -142,6 +164,14 @@ function Home () {
                 {loading ? "Saving..." : "Save"}
             </button>
 
+            <input
+                className="search-input"
+                type="text"
+                placeholder="Search entries..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
             <div>
                 {entries.length === 0 ? (
                     <div className="empty-state">
@@ -151,7 +181,7 @@ function Home () {
                         </p>
                     </div>
                     ) : (
-                    entries.map((entry) => (
+                    filteredEntries.map((entry) => (
                         <div key={entry._id} className="entry-card">
                         {editingId === entry._id ? (
                             <>
@@ -172,7 +202,11 @@ function Home () {
                             </>
                         ) : (
                             <>
+                            
                             <p>{entry.content}</p>
+                            <p className="entry-tag">
+                                #{entry.tag}
+                            </p>
 
                             <div className="entry-meta">
                                 <small className="entry-user">

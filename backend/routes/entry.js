@@ -6,10 +6,11 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 // Create entry
 router.post("/create", authMiddleware, async (req, res) => {
-    const { content } = req.body;
+    const { content, tag } = req.body;
 
     const entry = new Entry({ 
         content, 
+        tag,
         user: req.user.email,
     });
     await entry.save();
