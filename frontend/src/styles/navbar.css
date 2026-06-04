@@ -44,3 +44,13 @@
 .logout-btn {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+/* Dark Navbar */
+
+.dark-mode .navbar {
+  background: #1a1a1a;
+}
+
+.theme-btn {
+  margin-left: 20px;
+}

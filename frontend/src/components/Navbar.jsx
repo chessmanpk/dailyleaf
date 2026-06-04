@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css";
 
-function Navbar() {
+function Navbar({ darkMode, setDarkMode }) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -19,7 +19,13 @@ function Navbar() {
 
       <div className="links">
         <Link to="/">Home</Link>
-
+        <button
+          className="theme-btn"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+        {darkMode ? "☀️" : "🌙"}
+        </button>
+        
         {token ? (
           <>
             <span style={{ color: "white", marginRight: "10px" , marginLeft: "10px"}}>

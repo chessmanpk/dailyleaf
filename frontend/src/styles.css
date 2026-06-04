@@ -162,3 +162,45 @@ button:disabled {
 
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
+
+/* DARK MODE STYLING */
+
+
+/* Theme Style */
+body.light-mode {
+  background: #f4f4f4;
+  color: #222;
+}
+
+body.dark-mode {
+  background: #121212;
+  color: #ffffff;
+}
+
+/* Cards for Dark Mode */
+.dark-mode .entry-card {
+  background: #1e1e1e;
+  color: white;
+}
+
+.light-mode .entry-card {
+  background: white;
+}
+
+/* Inputs and Textareas for Dark Mode */
+.dark-mode textarea,
+.dark-mode input,
+.dark-mode select {
+  background: #2a2a2a;
+  color: white;
+  border: 1px solid #444;
+}
+
+/* Navbar for Dark Mode */
+.dark-mode .navbar {
+  background: #1a1a1a;
+}
+
+.light-mode .navbar {
+  background: #4caf50;
+}

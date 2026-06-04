@@ -25,6 +25,8 @@ function Home () {
 
     const user = localStorage.getItem("user");
 
+   
+
     const handleCreate = async () => {
         if (!content.trim()) {
             return alert("Entry cannot be empty");
@@ -123,6 +125,8 @@ function Home () {
 
         entry.tag.toLowerCase().includes(search.toLowerCase())
     );
+
+    
 
     return (
         // <div className="home">

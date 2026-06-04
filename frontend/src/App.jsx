@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import "./styles/global.css";
 
@@ -11,18 +11,37 @@ import Navbar from "./components/Navbar";
 
 
 function App() {
+
+  const [darkMode, setDarkMode] = useState(
+  localStorage.getItem("theme") === "dark"
+  );
   useEffect (() => {
     fetch("http://localhost:5000")
       .then(res => res.text())
       .then(data => console.log(data));
   }, []);
- 
+
+  useEffect(() => {
+    localStorage.setItem(
+    "theme",
+    darkMode ? "dark" : "light"
+  );
+  }, [darkMode]);
+
+  useEffect(() => {
+    document.body.className =
+    darkMode ? "dark-mode" : "light-mode";
+  }, [darkMode]);
+
   return (
     // <div>
     //   <h1>Dailyleaf 🌿</h1>
     // </div>
     <Router>
-      <Navbar />
+      <Navbar 
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
